@@ -78,12 +78,12 @@ class Person{
     }
 };
 
-class Student : public Person{
+class Student : virtual public Person{
     public:
     Student(string name) : Person(name) {}
 };
 
-class Employee : public Person{
+class Employee : virtual public Person{
     public:
     int id;
     Employee(string name , int id):Person(name){
@@ -94,11 +94,11 @@ class Employee : public Person{
 class Manager : public Student, public Employee{
     public:
     int salary;
-    Manager(string name, int id, int salary):Student(name),Employee(name,id),salary(salary){
+    Manager(string name, int id, int salary):Person(name),Student(name),Employee(name,id),salary(salary){
         
     };
     void Display(){
-        cout<<"Name: "<<Employee::name<<endl;
+        cout<<"Name: "<<name<<endl;
         cout<<"ID: "<<id<<endl;
         cout<<"Salary: "<<salary<<endl;
     }
