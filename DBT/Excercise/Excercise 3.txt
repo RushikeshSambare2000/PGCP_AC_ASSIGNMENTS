@@ -1,0 +1,142 @@
+        
+                                               SQL Exercise 3
+
+1. Display all the Supplier names with the initial letter capital.
+Ans: select concat(upper(substr(sname,1,1)), lower(substr(sname,2))) as SupplierName from s;
++--------------+
+| SupplierName |
++--------------+
+| Smith        |
+| Jones        |
+| Blake        |
+| Amit         |
+| Sahil        |
++--------------+   
+
+---------------------------------------------------------------------------------
+
+2. Display all the Supplier names in upper case.
+select upper(sname) from s;
++--------------+
+| upper(sname) |
++--------------+
+| SMITH        |
+| JONES        |
+| BLAKE        |
+| AMIT         |
+| SAHIL        |
++--------------+
+5 rows in set (0.010 sec)
+---------------------------------------------------------------------------------
+
+3. Display all the Supplier names in lower case.
+select lower(sname) from s;
++--------------+
+| lower(sname) |
++--------------+
+| smith        |
+| jones        |
+| blake        |
+| amit         |
+| sahil        |
++--------------+
+
+---------------------------------------------------------------------------------
+
+4. Display all the Supplier names padded to 25 characters, with spaces on the left.
+Ans : 
+select lpad(sname, 25 , " ") from s;
++---------------------------+
+| lpad(sname, 25 , " ")     |
++---------------------------+
+|                     Smith |
+|                     Jones |
+|                     Blake |
+|                      AMIT |
+|                     SAHIL |
++---------------------------+
+
+---------------------------------------------------------------------------------
+
+5. Display all the Supplier names (with ‘la’ replaced by ‘ro’).
+ HINT: REPLACE.
+Ans : 
+select replace(sname,'la','ro')  from s;
++--------------------------+
+| replace(sname,'la','ro') |
++--------------------------+
+| Smith                    |
+| Jones                    |
+| Broke                    |
+| AMIT                     |
+| SAHIL                    |
++--------------------------+
+
+---------------------------------------------------------------------------------
+6. Implement the above command such that ‘l’ is replaced with ‘r’ and ‘a’ is replaced
+with ‘o’.
+Ans : 
+select replace(replace(sname,'i','r'),'a','o') from s;
++-----------------------------------------+
+| replace(replace(sname,'i','r'),'a','o') |
++-----------------------------------------+
+| Smrth                                   |
+| Jones                                   |
+| Bloke                                   |
+| AMIT                                    |
+| SAHIL                                   |
++-----------------------------------------+
+
+---------------------------------------------------------------------------------
+
+
+7. Display the Supplier names and the lengths of the names.
+select sname,length(sname) from s;
++-------+---------------+
+| sname | length(sname) |
++-------+---------------+
+| Smith |             5 |
+| Jones |             5 |
+| Blake |             5 |
+| AMIT  |             4 |
+| SAHIL |             5 |
++-------+---------------+
+
+---------------------------------------------------------------------------------
+
+8. Use the soundex function to search for a supplier by the name of ‘BLOKE’.
+Ans : 
+
+---------------------------------------------------------------------------------
+
+9. Display the Supplier name and the status (as Ten, Twenty, Thirty, etc.).
+ SELECT sname,
+    -> CASE status
+    ->     WHEN 10 THEN 'Ten'
+    ->     WHEN 20 THEN 'Twenty'
+    ->     WHEN 30 THEN 'Thirty'
+    ->     WHEN 40 THEN 'Forty'
+    ->     ELSE 'Other'
+    -> END AS status_word
+    -> FROM s;
++-------+-------------+
+| sname | status_word |
++-------+-------------+
+| Smith | Ten         |
+| Jones | Twenty      |
+| Blake | Thirty      |
+| AMIT  | Forty       |
+| SAHIL | Other       |
++-------+-------------+
+
+---------------------------------------------------------------------------------
+
+10. Display the current day (e.g. Thursday).
+ans : select dayname(now()) as 'current day';
++-------------+
+| current day |
++-------------+
+| Friday      |
++-------------+
+---------------------------------------------------------------------------------
+ 

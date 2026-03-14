@@ -1,0 +1,197 @@
+                                SQL Practice Queries
+
+1. SELECT ..... display the ENAMEs with the initial letter capital.
+e.g.
+EMP
+------
+ENAME
+-----------
+SCOTT
+KING
+
+output
+----------
+Scott
+King
+
+Ans : 
+select fname, concat(upper(substr(fname,1,1)), lower(substr(fname,2))) as ' initial latter capital'from emp;
++----------+------------------------+
+| fname    | initial latter capital |
++----------+------------------------+
+| Rahul    | Rahul                  |
+| Amit     | Amit                   |
+| Sneha    | Sneha                  |
+| Priya    | Priya                  |
+| Rohit    | Rohit                  |
+| Anjali   | Anjali                 |
+| Karan    | Karan                  |
+| Yadav    | Yadav                  |
+| RSHIKESH | Rshikesh               |
+| RAHUL    | Rahul                  |
+| SOMYA    | Somya                  |
+| VIVEK    | Vivek                  |
+| ROHIT    | Rohit                  |
++----------+------------------------+
+
+---------------------------------------------------------------------------------
+
+2. SELECT ..... display the ENAMEs centre-justified. Assume screen
+width is 60 characters.
+e.g.
+ENAME
+----------
+SCOTT
+KING
+
+output
+---------
+28 *'s SCOTT 27 *'s
+28 *'s KING 28 *'s
+Ans : 
+select concat(repeat("*", floor((60-length(fname))/2)), fname, repeat("*", ceil((60-length(fname))/2))) as centername from emp;
++--------------------------------------------------------------+
+| centername                                                   |
++--------------------------------------------------------------+
+| ***************************Rahul**************************** |
+| ****************************Amit**************************** |
+| ***************************Sneha**************************** |
+| ***************************Priya**************************** |
+| ***************************Rohit**************************** |
+| ***************************Anjali*************************** |
+| ***************************Karan**************************** |
+| ***************************Yadav**************************** |
+| **************************RSHIKESH************************** |
+| ***************************RAHUL**************************** |
+| ***************************SOMYA**************************** |
+| ***************************VIVEK**************************** |
+| ***************************ROHIT**************************** |
++--------------------------------------------------------------+
+
+---------------------------------------------------------------------------------
+
+3. SELECT ..... display the starting position of the second occurrence of
+the string ‘a’ in the ENAME column.
+e.g.
+ENAME
+----------
+Arun Purun
+Tarun Arun
+Sirun Kirun
+Nutan Purun
+output
+---------
+0
+7
+0
+0
+
+ans:
+select fname, locate('a',fname,locate('a',fname)+1) from emp;
++-------------+---------------------------------------+
+| fname       | locate('a',fname,locate('a',fname)+1) |
++-------------+---------------------------------------+
+| Rahul       |                                     0 |
+| Amit        |                                     0 |
+| Sneha       |                                     0 |
+| Priya       |                                     0 |
+| Rohit       |                                     0 |
+| Anjali      |                                     4 |
+| Karan       |                                     4 |
+| Yadav       |                                     4 |
+| RSHIKESH    |                                     0 |
+| RAHUL       |                                     0 |
+| SOMYA       |                                     0 |
+| VIVEK       |                                     0 |
+| ROHIT       |                                     0 |
+| ARUN        |                                     0 |
+| TARUN       |                                     0 |
+| SIRN        |                                     0 |
+| nutam purun |                                     0 |
++-------------+---------------------------------------+
+
+---------------------------------------------------------------------------------
+
+4. SELECT ..... SAL
+Spell out the SAL column up to 5 million (ignore paise).
+e.g.
+EMP
+------
+SAL
+------
+3000
+4500
+
+output
+----------
+Three thousand
+Four thousand Five hundred
+
+SELECT sal,concat(
+CASE FLOOR(SAL/1000000)
+    WHEN 1 THEN 'One million '
+    WHEN 2 THEN 'Two million '
+    WHEN 3 THEN 'Three million'
+    WHEN 4 THEN 'Four million '
+    WHEN 5 THEN 'Five million '
+END,
+CASE FLOOR((SAL/1000)%100)
+    WHEN 10 THEN 'ten thousand '
+    WHEN 20 THEN 'twenty thousand '
+    WHEN 30 THEN 'thirty thousand'
+    WHEN 40 THEN 'fourty thousand '
+    WHEN 50 THEN 'fifty thousandn '
+    WHEN 60 THEN 'sixty thousand '
+    WHEN 70 THEN 'seventy thousand '
+    WHEN 80 THEN 'eighty thousand'
+    WHEN 90 THEN 'ninety thosand '
+    else ''
+END
+ )AS salary_words
+FROM emp;
+
+
+5. SELECT ..... display the ENAMEs with the vowels removed.
+e.g.
+EMP
+------
+ENAME
+----------
+King
+Scott
+Anita
+
+output
+---------
+Kng
+Sctt nt
+Ans : 
+SELECT REPLACE(
+       REPLACE(
+       REPLACE(
+       REPLACE(
+       REPLACE(lower(fNAME),'A',''),'E',''),'I',''),'O',''),'U','') AS ENAME_NO_VOWELS
+FROM EMP;
+
+
+6. SELECT ….. sysdate() - hiredate
+Display the experience of the employees in years, remainder months,
+days, hours, minutes, and seconds .
+
+e.g.
+HIREDATE -> 2023-07-01 10:15:04
+SYSDATE -> 2024-09-24 14:30:45
+
+output
+----------
+1 year, 2 months, 23 days, 4 hours, 15 minutes, 41 seconds
+7. SELECT …..
+7:17:15 pm How is this Time stored internally as a Fraction of Day?
+Hint: 12 pm -> 0.5, 6 pm -> 0.75
+8. SELECT ….. sysdate()
+Add 1 year 3 months 17 days 10 hours 12 minutes 20 seconds to the current
+date and time and display the resultant date and time.
+9.SELECT ….. sysdate()
+Write a SELECT statement to display the current date and time in the
+following format:-
+Today is Thu, 12th Mar, 2026, and the Time is 7:50:21 pm

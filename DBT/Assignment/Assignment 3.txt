@@ -1,0 +1,9 @@
+1)Does ANSI recognize the data type DATE?
+Ans : Yes, ANSI recognize the date data type. 
+     format to store date : YYYY-MM-DD
+
+2) Which subdivision of SQL is used to insert values in tables?
+Ans :The subdivision of SQL used to insert values into tables is DML (Data Manipulation Language).
+
+3)Why is 1970 the cut off year ?
+Ans : 1970 is used as the cut-off year because it is the start of the Unix time system. also Many programming languages and databases adopted the same standard.
