@@ -1,0 +1,96 @@
+                                 Assignment – 13
+                              Using the UNION clause.
+
+
+1) Create a union of two queries that shows the names, cities, and ratings of all
+customers. Those with rating of 200 or greater will also have the words “High
+Rating”, while the others will have the words “Low Rating”.
+Ans : 
+SELECT cname, city, rating, 'High Rating' AS status
+FROM customers
+WHERE rating >= 200
+UNION
+SELECT cname, city, rating, 'Low Rating' AS status
+FROM customers
+WHERE rating < 200;
++----------+----------+--------+-------------+
+| cname    | city     | rating | status      |
++----------+----------+--------+-------------+
+| Giovanni | Rome     |    200 | High Rating |
+| Liuu     | San Jose |    200 | High Rating |
+| Grass    | Berlin   |    300 | High Rating |
+| Cisneros | San Jose |    300 | High Rating |
+| Hoffman  | London   |    100 | Low Rating  |
+| Clemens  | London   |    100 | Low Rating  |
+| Pereira  | Rome     |    100 | Low Rating  |
++----------+----------+--------+-------------+
+
+----------------------------------------------------------------------------------
+
+2) Write a command that produces the name and number of each salesperson and
+each customer with more than one current order. Put the results in alphabetical
+order.
+Ans : 
+SELECT sname, snum
+FROM salespeople
+WHERE snum IN (
+    SELECT snum
+    FROM orders
+    GROUP BY snum
+    HAVING COUNT(*) > 1
+)
+UNION
+SELECT cname, cnum
+FROM customers
+WHERE cnum IN (
+    SELECT cnum
+    FROM orders
+    GROUP BY cnum
+    HAVING COUNT(*) > 1
+)
+ORDER BY sname;
+
++----------+------+
+| sname    | snum |
++----------+------+
+| Cisneros | 2008 |
+| Clemens  | 2006 |
+| Grass    | 2004 |
+| peel     | 1001 |
+| Rifkin   | 1007 |
+| Serres   | 1002 |
++----------+------+
+----------------------------------------------------------------------------------
+
+3) Form a union of three queries. Have the first select the snums of all salespeople in
+San Jose; the second, the cnums of all customers in San Jose; and the third the
+onums of all orders on October 3. Retain duplicates between the last two queries
+but eliminate any redundancies between either of them and the first.
+(Note: in the sample tables as given, there would be no such redundancy. This is
+besides the point.)
+Ans : 
+SELECT snum AS number
+FROM salespeople
+WHERE city = 'San Jose'
+UNION
+SELECT cnum
+FROM customers
+WHERE city = 'San Jose'
+UNION ALL
+SELECT onum
+FROM orders
+WHERE odate = '1990-10-03';
+
++--------+
+| number |
++--------+
+|   1002 |
+|   2003 |
+|   2008 |
+|   3001 |
+|   3002 |
+|   3003 |
+|   3005 |
+|   3006 |
+|   3007 |
+|   3009 |

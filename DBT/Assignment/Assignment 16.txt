@@ -1,0 +1,57 @@
+                                   Assignment – 16
+                           Creating Tables and Indexes.
+1) Write a command that will enable a user to pull orders grouped by date out of the Orders table quickly.
+Ans : 
+CREATE INDEX idx_orders_odate
+ON Orders(Odate);
+
+SELECT Odate, COUNT(*)
+FROM Orders
+GROUP BY Odate;
+
++------------+----------+
+| Odate      | COUNT(*) |
++------------+----------+
+| 1990-10-03 |        7 |
+| 1990-10-04 |        1 |
+| 1990-10-05 |        1 |
+| 1990-10-06 |        2 |
++------------+----------+
+---------------------------------------------------------------------------------
+
+2) If the Orders table has already been created, how can you force the onum field to be unique (assume all current values are unique)?
+Ans : 
+ALTER TABLE Orders
+ADD CONSTRAINT unique_onum UNIQUE (Onum);
+
+---------------------------------------------------------------------------------
+3) Create an index that would permit each salesperson to retrieve his or her orders grouped by date quickly.
+Ans : 
+
+CREATE INDEX idx_snum_odate
+ON Orders(Snum, Odate);
+
+SELECT Snum, Odate, COUNT(*)
+FROM Orders
+GROUP BY Snum, Odate;
+
++------+------------+----------+
+| Snum | Odate      | COUNT(*) |
++------+------------+----------+
+| 1001 | 1990-10-03 |        1 |
+| 1001 | 1990-10-04 |        1 |
+| 1001 | 1990-10-05 |        1 |
+| 1001 | 1990-10-06 |        1 |
+| 1002 | 1990-10-03 |        2 |
+| 1002 | 1990-10-06 |        1 |
+| 1003 | 1990-10-03 |        1 |
+| 1004 | 1990-10-03 |        1 |
+| 1007 | 1990-10-03 |        2 |
++------+------------+----------+
+
+----------------------------------------------------------------------------------
+4) Let us assume that each salesperson is to have only one customer of a given
+rating, and that this is currently the case. Enter a command that enforces it.
+Ans : 
+ALTER TABLE Customers
+ADD CONSTRAINT unique_snum_rating UNIQUE (Snum, Rating);

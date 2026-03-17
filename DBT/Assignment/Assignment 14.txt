@@ -1,0 +1,66 @@
+                                 Assignment – 14
+                 Entering, Deleting, and Changing Field Values.
+
+1) Write a command that puts the following values, in their given order, into the
+salespeople table: city – San Jose, name – Blanco, comm – NULL, cnum – 1100.
+Ans:
+INSERT INTO salespeople (city, sname, comm, snum)
+VALUES ('San Jose', 'Blanco', NULL, 1100);
+
+---------------------------------------------------------------------------------
+
+2) Write a command that removes all orders from customer Clemens from the
+Orders table.
+Ans : 
+delete from  orders2 where snum=
+(select snum from customers2 
+where cname='Clemens');
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3002 |  1900.1 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3009 | 1713.23 | 1990-10-03 | 2002 | 1003 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
++------+---------+------------+------+------+
+
+---------------------------------------------------------------------------------
+
+3) Write a command that increases the rating of all customers in Rome by 100.
+Ans : update customers2 set  rating=100 where city='rome';
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    100 | 1003 |
+| 2003 | Liuu     | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+
+---------------------------------------------------------------------------------
+
+4) Salesperson Serres has left the company. Assign her customers to Motika.
+Ans : 
+update customers2 set 
+snum=(select snum from salespeople where sname='motika') 
+where snum= (select snum from salespeople where sname='serres');
+
+delete from salespeople2 where sname='serres';
+
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liuu     | San Jose |    200 | 1004 |
+| 2004 | Grass    | Berlin   |    300 | 1004 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+

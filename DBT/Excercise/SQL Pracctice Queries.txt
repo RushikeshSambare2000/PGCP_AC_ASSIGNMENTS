@@ -150,6 +150,8 @@ END
  )AS salary_words
 FROM emp;
 
+---------------------------------------------------------------------------------
+
 
 5. SELECT ..... display the ENAMEs with the vowels removed.
 e.g.
@@ -166,13 +168,34 @@ output
 Kng
 Sctt nt
 Ans : 
-SELECT REPLACE(
-       REPLACE(
-       REPLACE(
-       REPLACE(
-       REPLACE(lower(fNAME),'A',''),'E',''),'I',''),'O',''),'U','') AS ENAME_NO_VOWELS
+SELECT REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+       REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(FNAME,
+       'A',''),'E',''),'I',''),'O',''),'U',''),
+       'a',''),'e',''),'i',''),'o',''),'u','') AS ENAME_NO_VOWELS
 FROM EMP;
++-----------------+
+| ENAME_NO_VOWELS |
++-----------------+
+| Rhl             |
+| mt              |
+| Snh             |
+| Pry             |
+| Rht             |
+| njl             |
+| Krn             |
+| Ydv             |
+| RSHKSH          |
+| RHL             |
+| SMY             |
+| VVK             |
+| RHT             |
+| RN              |
+| TRN             |
+| SRN             |
+| ntm prn         |
++-----------------+
 
+---------------------------------------------------------------------------------
 
 6. SELECT ….. sysdate() - hiredate
 Display the experience of the employees in years, remainder months,
@@ -185,13 +208,51 @@ SYSDATE -> 2024-09-24 14:30:45
 output
 ----------
 1 year, 2 months, 23 days, 4 hours, 15 minutes, 41 seconds
+Ans :
+SELECT 
+TIMESTAMPDIFF(YEAR, HIREDATE, SYSDATE()) AS years,
+TIMESTAMPDIFF(MONTH, HIREDATE, SYSDATE()) % 12 AS months,
+TIMESTAMPDIFF(DAY, HIREDATE, SYSDATE()) % 30 AS days,
+TIMESTAMPDIFF(HOUR, HIREDATE, SYSDATE()) % 24 AS hours,
+TIMESTAMPDIFF(MINUTE, HIREDATE, SYSDATE()) % 60 AS minutes,
+TIMESTAMPDIFF(SECOND, HIREDATE, SYSDATE()) % 60 AS seconds
+FROM EMP;
+
+---------------------------------------------------------------------------------
+
 7. SELECT …..
 7:17:15 pm How is this Time stored internally as a Fraction of Day?
 Hint: 12 pm -> 0.5, 6 pm -> 0.75
+
+---------------------------------------------------------------------------------
+
 8. SELECT ….. sysdate()
 Add 1 year 3 months 17 days 10 hours 12 minutes 20 seconds to the current
 date and time and display the resultant date and time.
+Ans :SELECT DATE_ADD(
+       DATE_ADD(
+       DATE_ADD(
+       DATE_ADD(
+       DATE_ADD(
+       DATE_ADD(SYSDATE(), INTERVAL 1 YEAR),
+       INTERVAL 3 MONTH),
+       INTERVAL 17 DAY),
+       INTERVAL 10 HOUR),
+       INTERVAL 12 MINUTE),
+       INTERVAL 20 SECOND) AS RESULT_DATE;
+
+---------------------------------------------------------------------------------
+
 9.SELECT ….. sysdate()
 Write a SELECT statement to display the current date and time in the
 following format:-
 Today is Thu, 12th Mar, 2026, and the Time is 7:50:21 pm
+Ans : 
+SELECT CONCAT(
+'Today is ',
+DATE_FORMAT(SYSDATE(),'%a, %D %b, %Y'),
+', and the Time is ',
+DATE_FORMAT(SYSDATE(),'%r')
+) AS OUTPUT;
+
+---------------------------------------------------------------------------------

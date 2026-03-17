@@ -1,0 +1,75 @@
+                                              Assignment –7
+                                 Summarizing Data with Aggregate Functions.
+1) Write a query that counts all orders for October 3.
+Ans :
+select odate, count(odate)  from orders where odate='1990-10-03';
++------------+--------------+
+| odate      | count(odate) |
++------------+--------------+
+| 1990-10-03 |            7 |
++------------+--------------+
+
+---------------------------------------------------------------------------------
+
+2) Write a query that counts the number of different non-NULL city values in the
+Customers table.
+Ans :  SELECT COUNT(DISTINCT City) AS NumberOfCities FROM Customers;
++----------------+
+| NumberOfCities |
++----------------+
+|              4 |
++----------------+
+
+---------------------------------------------------------------------------------
+
+3) Write a query that selects each customer’s smallest order.
+Ans : select min(amt) as minorder from orders;
++----------+
+| minorder |
++----------+
+|     18.5 |
++----------+
+
+---------------------------------------------------------------------------------
+
+4) Write a query that selects the first customer, in alphabetical order, whose name begins with G.
+Ans : select cname from customers where cname like "G%" order by cname;
++----------+
+| cname    |
++----------+
+| Giovanni |
+| Grass    |
++----------+
+
+---------------------------------------------------------------------------------
+
+5) Write a query that selects the highest rating in each city.
+Ans :  
+SELECT City, MAX(Rating) AS HighestRating
+FROM Customers
+GROUP BY City;
++----------+---------------+
+| City     | HighestRating |
++----------+---------------+
+| London   |           100 |
+| Rome     |           200 |
+| San Jose |           300 |
+| Berlin   |           300 |
++----------+---------------+
+
+---------------------------------------------------------------------------------
+
+6) Write a query that counts the number of salespeople registering orders for each
+day. (If a salesperson has more than one order on a given day, he or she should be counted only once.).
+Ans :
+SELECT ODate, COUNT(DISTINCT snum ) AS NumberOfSalespeople
+FROM Orders
+GROUP BY ODate;
++------------+---------------------+
+| ODate      | NumberOfSalespeople |
++------------+---------------------+
+| 1990-10-03 |                   5 |
+| 1990-10-04 |                   1 |
+| 1990-10-05 |                   1 |
+| 1990-10-06 |                   2 |
++------------+---------------------+

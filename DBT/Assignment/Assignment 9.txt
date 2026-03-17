@@ -1,0 +1,82 @@
+
+                                    Assignment – 9
+Querying Multiple Tables at Once.
+1) Write a query that lists each order number followed by the name of the customer
+who made the order.
+Ans : select onum, cname from orders, customers where orders.cnum=customers.cnum;
++------+----------+
+| onum | cname    |
++------+----------+
+| 3001 | Cisneros |
+| 3002 | Pereira  |
+| 3003 | Hoffman  |
+| 3005 | Liuu     |
+| 3006 | Cisneros |
+| 3007 | Grass    |
+| 3008 | Clemens  |
+| 3009 | Giovanni |
+| 3010 | Grass    |
+| 3011 | Clemens  |
+| 3012 | Grass    |
++------+----------+
+
+--------------------------------------------------------------------------------
+
+
+2) Write a query that gives the names of both the salesperson and the customer for
+each order along with the order number.
+Ans : 
+select cname, onum, sname from orders, customers, salespeople
+where orders.snum=customers.snum and customers.snum=salespeople.snum;
++----------+------+---------+
+| cname    | onum | sname   |
++----------+------+---------+
+| Cisneros | 3001 | Rifkin  |
+| Pereira  | 3002 | Motika  |
+| Clemens  | 3003 | peel    |
+| Hoffman  | 3003 | peel    |
+| Grass    | 3005 | Serres  |
+| Liuu     | 3005 | Serres  |
+| Cisneros | 3006 | Rifkin  |
+| Grass    | 3007 | Serres  |
+| Liuu     | 3007 | Serres  |
+| Clemens  | 3008 | peel    |
+| Hoffman  | 3008 | peel    |
+| Giovanni | 3009 | Axelrod |
+| Grass    | 3010 | Serres  |
+| Liuu     | 3010 | Serres  |
+| Clemens  | 3011 | peel    |
+| Hoffman  | 3011 | peel    |
+| Clemens  | 3012 | peel    |
+| Hoffman  | 3012 | peel    |
+
+--------------------------------------------------------------------------------
+3) Write a query that produces all customers serviced by salespeople with a
+commission above 12%. Output the customer’s name, the salesperson’s name,
+and the salesperson’s rate of commission.
+Ans : 
+ select cname, sname, comm from customers, salespeople
+ where customers.snum=salespeople.snum having comm>0.12;
++----------+--------+------+
+| cname    | sname  | comm |
++----------+--------+------+
+| Liuu     | Serres | 0.13 |
+| Grass    | Serres | 0.13 |
+| Cisneros | Rifkin | 0.15 |
+--------------------------------------------------------------------------------
+
+4) Write a query that calculates the amount of the salesperson’s commission on each order by a customer with a rating above 100.
+Ans : 
+select sname, round(amt*comm,2) as Comm_Amount, rating 
+from  orders, customers, salespeople
+where orders.snum=customers.snum and customers.snum=salespeople.snum  
+having rating>200 order by cname;
++--------+-------------+--------+
+| sname  | Comm_Amount | rating |
++--------+-------------+--------+
+| Rifkin |         2.8 |    300 |
+| Rifkin |      164.72 |    300 |
+| Serres |      670.86 |    300 |
+| Serres |        9.85 |    300 |
+| Serres |      170.29 |    300 |
++--------+-------------+--------+
