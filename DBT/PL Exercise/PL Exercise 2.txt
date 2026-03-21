@@ -1,0 +1,140 @@
+                                            Exercise 2
+
+1. Select from any table a number and determine whether it is within a given range (for
+example, between 1 and 10).
+Ans : 
+create table range_check(
+num int,
+result varchar(50)
+);
+
+delimiter //
+create procedure check_range()
+begin
+    declare n int;
+    declare result varchar(100); 
+    select empid into n from emp limit 1;
+
+    if n between 100 and 200 then
+		set result = 'Within Range';
+    else
+        set result = 'Out of Range';
+    end if;
+    insert into range_check values(n,result);
+end;//
+delimiter ;
+
+call check_range();
+select * from range_check;
+
++------+--------------+
+| num  | result       |
++------+--------------+
+|  101 | NULL         |
+|  101 | Within Range |
++------+--------------+
+
+------------------------------------------------------------------------------------------
+
+2. Select from any table three positive integers representing the sides of a triangle, and
+determine whether they form a valid triangle. Hint: In a triangle, the sum of any two
+sides must always be greater than the third side.
+Ans : create table triangle_check(
+a int,
+b int,
+c int,
+result varchar(50)
+);
+
+delimiter //
+create procedure check_triangle(x int,y int, z int)
+begin
+    declare result varchar(100);
+    if (x + y > z) and (x + z > y) and (y + z > x) then
+        set result = 'Valid Triangle';
+    else
+        set result = 'Invalid Triangle';
+    end if;
+    insert into triangle_check values(x,y,z,result);
+end;//
+delimiter ;
+call check_triangle(3,4,5);
+call check_triangle(1,1,5);
+select * from triangle_check;
++------+------+------+------------------+
+| a    | b    | c    | result           |
++------+------+------+------------------+
+|    3 |    4 |    5 | Valid Triangle   |
+|    1 |    1 |    5 | Invalid Triangle |
++------+------+------+------------------+
+
+------------------------------------------------------------------------------------------
+
+3. Check if a given a year is a leap year. The condition is:- year should be (divisible by 4
+and not divisible by 100) or (divisible by 4 and divisible by 400.). The year should be
+Selected from some table.
+Ans:
+create table leap_year_check(
+year int,
+result varchar(50)
+);
+
+delimiter //
+create procedure check_leap_year(y int)
+begin
+    declare result varchar(100);
+    if ((mod(y,4) = 0) and (mod(y,100) <> 0)) or (mod(y,400) = 0) then
+        set result = 'Leap Year';
+    else
+        set result = 'Not Leap Year';
+    end if;
+    insert into leap_year_check values(y, result);
+end;//
+delimiter ;
+
+-- insert & call
+call check_leap_year(2024);
+call check_leap_year(2025);
+call check_leap_year(2000);
+select * from leap_year_check;
+
+
++------+---------------+
+| year | result        |
++------+---------------+
+| 2024 | Leap Year     |
+| 2025 | Not Leap Year |
+| 2000 | Leap Year     |
++------+---------------+
+
+------------------------------------------------------------------------------------------
+
+4. Write a program that Selects from any table two character strings. Your program should
+then determine if one character string exists inside another character string
+Ans :
+create table string_check(
+str1 varchar(100),
+str2 varchar(100),
+result varchar(50)
+);
+
+delimiter //
+create procedure check_substring()
+begin
+    declare s1 varchar(100);
+    declare s2 varchar(100);
+
+    select str1, str2 into s1, s2 from string_check limit 1;
+
+    if instr(s1, s2) > 0 then
+        update string_check set result = 'Substring Found';
+    else
+        update string_check set result = 'Substring Not Found';
+    end if;
+end;//
+delimiter ;
+
+-- insert & call
+insert into string_check values('hello world','world',null);
+call check_substring();
+select * from string_check;

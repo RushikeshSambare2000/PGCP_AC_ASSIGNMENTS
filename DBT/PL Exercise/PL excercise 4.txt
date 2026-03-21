@@ -1,0 +1,150 @@
+
+
+                                  Exercise 4
+1. The CUSTOMER table of a state electricity board consists of the following fields:-
+Meter Number Varchar 4
+Meter Type Char 1
+ Previous Reading Int 5
+ Current Reading Int 5
+ Customer Type Char 1
+ Last Bill payment Char 1 (values could be ‘Y’ or ‘N’)
+
+There are two types of meters viz. 3- phase or 1-phase coded as ‘T’ or ‘S’
+respectively. There are 4 types of customers viz. Agricultural Industrial,
+Commercial and Residential with codes ‘A’ , ‘I’, ‘C’ and ‘R’ respectively.
+
+Formulae:-
+Units used = Current Reading – Previous Reading Rate
+=Rs.1/ 1.25/ 1.50/ 1.30 for A/I/C/R respectively.
+Amount = rate*units used
+Surcharge = 5% for single phase
+10% for 3 phase
+Excise = 30% of (amount +Surcharge)
+Net = Amount +Surcharge + Excise
+
+Write a block to calculate the bill for each customer. The program should insert the
+Meter no., Units used, Rate, Amount, Surcharge, Excise duty and Net for each
+customer into some other suitable table. Also, at the end, it should insert the total
+Amount, Surcharge, Excise and Net into some other table.
+
+Ans:
+create table customer(
+meter_no varchar(4),
+meter_type char(1),
+prev_reading int,
+curr_reading int,
+cust_type char(1),
+last_payment char(1)
+);
+
+
+create table bill_details(
+meter_no varchar(4),
+units int,
+rate float,
+amount float,
+surcharge float,
+excise float,
+net float
+);
+
+
+create table bill_total(
+total_amount float,
+total_surcharge float,
+total_excise float,
+total_net float
+);
+
+
+delimiter //
+create procedure calc_bill()
+begin
+    declare done int default 0;
+
+    declare m_no varchar(4);
+    declare m_type char(1);
+    declare pr int;
+    declare cr int;
+    declare c_type char(1);
+
+    declare units int;
+    declare rate float;
+    declare amount float;
+    declare surcharge float;
+    declare excise float;
+    declare net float;
+
+    declare tot_amt float default 0;
+    declare tot_sur float default 0;
+    declare tot_exc float default 0;
+    declare tot_net float default 0;
+
+    declare cur cursor for select meter_no, meter_type, prev_reading, curr_reading, cust_type from customer;
+    declare continue handler for not found set done = 1;
+
+    open cur;
+
+    read_loop: loop
+        fetch cur into m_no, m_type, pr, cr, c_type;
+        if done then
+            leave read_loop;
+        end if;
+
+        -- units
+        set units = cr - pr;
+
+        -- rate
+        if c_type = 'A' then
+            set rate = 1;
+        elseif c_type = 'I' then
+            set rate = 1.25;
+        elseif c_type = 'C' then
+            set rate = 1.50;
+        else
+            set rate = 1.30;
+        end if;
+
+        -- amount
+        set amount = units * rate;
+
+        -- surcharge
+        if m_type = 'S' then
+            set surcharge = amount * 0.05;
+        else
+            set surcharge = amount * 0.10;
+        end if;
+
+        -- excise
+        set excise = (amount + surcharge) * 0.30;
+
+        -- net
+        set net = amount + surcharge + excise;
+
+        -- insert
+        insert into bill_details values(m_no, units, rate, amount, surcharge, excise, net);
+
+        -- totals
+        set tot_amt = tot_amt + amount;
+        set tot_sur = tot_sur + surcharge;
+        set tot_exc = tot_exc + excise;
+        set tot_net = tot_net + net;
+    end loop;
+    close cur;
+    insert into bill_total values(tot_amt, tot_sur, tot_exc, tot_net);
+end;//
+delimiter ;
+
+
+insert into customer values
+('M001','S',100,200,'A','Y'),
+('M002','T',150,300,'I','N'),
+('M003','S',200,350,'C','Y'),
+('M004','T',120,220,'R','Y');
+
+call calc_bill();
+
+select * from bill_details;
+select * from bill_total;
+
+

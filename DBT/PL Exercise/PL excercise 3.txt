@@ -1,0 +1,190 @@
+
+                                     Exercise 3
+1. Write a program containing a loop that iterates from 1 to 1000 using a variable I,
+which is incremented each time around the loop. The program should output the
+value of I every hundred iterations (i.e., the output should be 100, 200, etc.).
+Ans 
+create table loop_output(
+val int
+);
+
+delimiter //
+create procedure print_hundreds()
+begin
+    declare i int default 1;
+    while i <= 1000 do
+        if mod(i,100) = 0 then
+            insert into loop_output values(i);
+        end if;
+        set i = i + 1;
+    end while;
+end;//
+delimiter ;
+call print_hundreds();
+select * from loop_output;
++------+
+| val  |
++------+
+|  100 |
+|  200 |
+|  300 |
+|  400 |
+|  500 |
+|  600 |
+|  700 |
+|  800 |
+|  900 |
+| 1000 |
++------+
+
+--------------------------------------------------------------------------------------
+
+2. Write a program that examines all the numbers from 1 to 999, displaying all those
+for which the sum of the cubes of the digits equal the number itself.
+Ans:
+create table armstrong(
+num int
+);
+
+delimiter //
+create procedure find_armstrong()
+begin
+    declare i int default 1;
+    declare n int;
+    declare rem int;
+    declare sum_val int;
+
+    delete from armstrong;
+
+    while i <= 999 do
+        set n = i;
+        set sum_val = 0;
+
+        while n > 0 do
+            set rem = n mod 10;
+            set sum_val = sum_val + (rem*rem*rem);
+            set n = n div 10;
+        end while;
+
+        if sum_val = i then
+            insert into armstrong values(i);
+        end if;
+
+        set i = i + 1;
+    end while;
+end;//
+delimiter ;
+
+call find_armstrong();
+select * from armstrong;
+
+----------------------------------------------------------------------------------------
+
+3. Write a program that Selects from any table a minimum and maximum value for a
+radius, along with an increment factor, and generates a series of radii by repeatedly
+adding the increment to the minimum until the maximum is reached. For each value
+of the radius, compute and display the circumference, area, and volume of the
+sphere. (Be sure to include both the maximum and the minimum values.).
+ANS: 
+create table radius_input(
+min_r float,
+max_r float,
+inc_r float
+);
+
+create table sphere_output(
+radius float,
+circumference float,
+area float,
+volume float
+);
+
+delimiter //
+create procedure calc_sphere()
+begin
+    declare r float;
+    declare maxv float;
+    declare incv float;
+
+    select min_r, max_r, inc_r into r, maxv, incv from radius_input limit 1;
+
+    while r <= maxv do
+        insert into sphere_output
+        values(
+            r,
+            2 * 3.1416 * r,
+            4 * 3.1416 * r * r,
+            (4.0/3.0) * 3.1416 * r * r * r
+        );
+
+        set r = r + incv;
+    end while;
+end;//
+delimiter ;
+
+-- insert & call
+insert into radius_input values(1,5,1);
+call calc_sphere();
+select * from sphere_output;
+
+--------------------------------------------------------------------------------------
+
+4. A palindrome is a word that is spelled the same forward and backward, such as
+level, radar, etc. Write a program to Selects from any table a five letter word and
+determine whether it is a palindrome.
+Ans:
+create table palindrome5(
+word varchar(5),
+result varchar(50)
+);
+
+delimiter //
+create procedure check_palindrome5()
+begin
+    declare w varchar(5);
+
+    select word into w from palindrome5 limit 1;
+
+    if w = reverse(w) then
+        update palindrome5 set result = 'Palindrome';
+    else
+        update palindrome5 set result = 'Not Palindrome';
+    end if;
+end;//
+delimiter ;
+
+-- insert & call
+insert into palindrome5(word) values('level');
+call check_palindrome5();
+select * from palindrome5;
+
+-------------------------------------------------------------------------------------------
+
+5. Modify the above program to Select from any table a variable length word. This
+requires determining how many characters are read in.
+Ans:
+create table palindrome5(
+word varchar(5),
+result varchar(50)
+);
+
+delimiter //
+create procedure check_palindrome5()
+begin
+    declare w varchar(5);
+
+    select word into w from palindrome5 limit 1;
+
+    if w = reverse(w) then
+        update palindrome5 set result = 'Palindrome';
+    else
+        update palindrome5 set result = 'Not Palindrome';
+    end if;
+end;//
+delimiter ;
+
+-- insert & call
+insert into palindrome5(word) values('level');
+call check_palindrome5();
+select * from palindrome5;
+ 

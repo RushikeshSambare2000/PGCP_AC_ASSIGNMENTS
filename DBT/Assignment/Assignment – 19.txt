@@ -1,0 +1,78 @@
+
+                                   Assignment – 19
+                                      Views.
+1) Create a view that shows all of the customers who have the highest ratings.
+Ans:
+create view customers_view 
+as select cname, rating from customers ;
+select * from customers_view order by rating desc;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| Grass    |    300 |
+| Cisneros |    300 |
+| Giovanni |    200 |
+| Liuu     |    200 |
+| Hoffman  |    100 |
+| Clemens  |    100 |
+| Pereira  |    100 |
++----------+--------+
+
+---------------------------------------------------------------------------------------------------
+
+2) Create a view that shows the number of salespeople in each city.
+Ans :
+CREATE VIEW salespeople_per_city AS
+SELECT City, COUNT(*) AS total_salespeople
+FROM salespeople
+GROUP BY City;
+select * from salespeople_per_city;
++-----------+-------------------+
+| City      | total_salespeople |
++-----------+-------------------+
+| London    |                 2 |
+| San Jose  |                 2 |
+| Yew york  |                 1 |
+| Barcelona |                 1 |
++-----------+-------------------+
+
+---------------------------------------------------------------------------------------------------
+
+3) Create a view that shows the average and total orders for each salesperson after
+his or her name. Assume all names are unique.
+Ans  :
+CREATE VIEW salespeople_orders_summary AS
+SELECT s.Sname,
+       AVG(o.amt) AS avg_order,
+       SUM(o.amt) AS total_order
+FROM salespeople s
+JOIN orders o ON s.Snum = o.Snum
+GROUP BY s.Sname;
+select * from salespeople_orders_summary;
+
++---------+--------------------+--------------------+
+| Sname   | avg_order          | total_order        |
++---------+--------------------+--------------------+
+| Rifkin  |  558.4250173568726 | 1116.8500347137451 |
+| Motika  | 1900.0999755859375 | 1900.0999755859375 |
+| peel    | 3850.1424713134766 | 15400.569885253906 |
+| Serres  |  2182.050048828125 |  6546.150146484375 |
+| Axelrod |   1713.22998046875 |   1713.22998046875 |
++---------+--------------------+--------------------+
+
+---------------------------------------------------------------------------------------------------
+
+4) Create a view that shows each salesperson with multiple customers.
+CREATE VIEW salespeople_multiple_customers AS
+SELECT s.Sname, COUNT(c.cnum) AS total_customers
+FROM salespeople s
+JOIN customers c ON s.Snum = c.Snum
+GROUP BY s.Sname
+HAVING COUNT(c.cnum) > 1;
+select * from salespeople_multiple_customers;
++--------+-----------------+
+| Sname  | total_customers |
++--------+-----------------+
+| peel   |               2 |
+| Serres |               2 |
++--------+-----------------+

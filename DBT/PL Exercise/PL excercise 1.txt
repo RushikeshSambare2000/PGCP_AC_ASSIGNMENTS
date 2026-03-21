@@ -1,0 +1,212 @@
+
+                             MySQL-PL
+                            Exercise 1
+
+
+1. Write a program that computes the perimeter and the area of a rectangle. Define
+your own values for the length and width. (Assuming that L and W are the length
+and width of the rectangle, Perimeter = 2*(L+W) and Area = L*W.
+ans : 
+create table temp(
+area char(20),
+perimeter char(20)
+);
+
+delimiter //
+create procedure area_perimeter(length char(10), width  char(10))
+begin
+    declare perimeter char(10);
+    declare area char(10);
+    set perimeter=2*(length+width);
+    set area=length*width;
+    insert into temp values(area, perimeter);
+end;//
+delimiter ;
+call area_perimeter('10','20');
+call area_perimeter('30','40');
+select * from temp;
++------+------+----------+
+| num  | sqrt | num_cube |
++------+------+----------+
+|   10 |  100 |     1000 |
++------+------+----------+
+
+---------------------------------------------------------------------------------
+
+2. Write a program that declares an integer variable called num, assigns a value to it, and 
+   computes and inserts into the tempp table the value of the variable itself, its square, and its cube.
+Ans :
+create table temp2(
+num int,
+sqrt int,
+num_cube int
+);
+
+
+delimiter //
+create procedure sqrt_cube()
+begin
+   declare num int;
+   declare num_sqrt int;
+   declare num_cube int;
+   set num=10;
+   set num_sqrt=num*num;
+   set num_cube=num*num*num;
+   insert into temp2 values(num, num_sqrt, num_cube);
+end;//
+delimiter ;
+call sqrt_cube();
+select * from temp2;
+
++------+------+----------+
+| num  | sqrt | num_cube |
++------+------+----------+
+|   10 |  100 |     1000 |
++------+------+----------+
+   
+
+---------------------------------------------------------------------------------
+
+3. Convert a temperature in Fahrenheit (F) to its equivalent in Celsius (C) and vice versa. The required formulae are:- C= (F-32)*5/9
+F= 9/5*C + 32
+Ans:
+
+--for celsius to fahrenheit
+create table temp3(
+ input float,
+ output float
+)
+
+delimiter //
+create procedure cel_to_fara(input float)
+begin 
+    declare output float;
+    set output=9/5*input + 32;
+    insert into temp3 values(input, output);
+end; //
+delimiter ;
+call cel_to_fara(10.0);
+select * from temp3;
+
+--for Fahrenheit to celsius
+create table temp4(
+ input float,
+ output float
+)
+
+delimiter //
+create procedure fara_to_temp(input float)
+begin 
+    declare output float;
+    set output=5/9*input - 32;
+    insert into temp4 values(input, output);
+end; //
+delimiter ;
+call fara_to_temp(10.0);
+select * from temp4;
+
+---------------------------------------------------------------------------------
+
+4. Convert a number of inches into yards, feet, and inches. For example, 124 inches
+equals 3 yards, 1 foot, and 4 inches.
+Ans :
+create table convert_inch(
+total_inches int,
+yards int,
+feet int,
+inches int
+);
+
+delimiter //
+create procedure convert_inch_proc(in input_inches int)
+begin
+    declare y int;
+    declare f int;
+    declare i int;
+
+    set y = input_inches div 36;
+    set f = (input_inches mod 36) div 12;
+    set i = input_inches mod 12;
+
+    insert into convert_inch values(input_inches, y, f, i);
+end;//
+delimiter ;
+call convert_inch_proc(124);
+select * from convert_inch;
+
++--------------+-------+------+--------+
+| total_inches | yards | feet | inches |
++--------------+-------+------+--------+
+|          124 |     3 |    1 |      4 |
++--------------+-------+------+--------+
+
+----------------------------------------------------------------------------------------
+
+5. Write a program that enables a user to input an integer. The program should then
+state whether the integer is evenly divisible by 5.
+Ans:
+create table divisible_by_5(
+num int,
+result varchar(50)
+);
+
+delimiter //
+create procedure check_divisible(in n int)
+begin
+    if n mod 5 = 0 then
+        insert into divisible_by_5 values(n, 'Divisible by 5');
+    else
+        insert into divisible_by_5 values(n, 'Not Divisible by 5');
+    end if;
+end;//
+delimiter ;
+call check_divisible(25);
+call check_divisible(27);
+select * from divisible_by_5;
++------+--------------------+
+| num  | result             |
++------+--------------------+
+|   25 | Divisible by 5     |
+|   27 | Not Divisible by 5 |
++------+--------------------+
+
+----------------------------------------------------------------------------------------
+
+6. Your block should read in two real numbers and tell whether the product of the two
+numbers is equal to or greater than 100. 
+Ans : 
+create table product_check(
+num1 float,
+num2 float,
+product float,
+result varchar(50)
+);
+
+delimiter //
+create procedure check_product(in a float, in b float)
+begin
+    declare p float;
+    set p = a * b;
+    if p >= 100 then
+        insert into product_check values(a, b, p, 'Greater or Equal to 100');
+    else
+        insert into product_check values(a, b, p, 'Less than 100');
+    end if;
+end;//
+delimiter ;
+
+-- call
+call check_product(10.5, 10);
+call check_product(10.5, 10);
+call check_product(12.5, 11);
+call check_product(9.6, 4);
+select * from product_check;
+
++------+------+---------+-------------------------+
+| num1 | num2 | product | result                  |
++------+------+---------+-------------------------+
+| 10.5 |   10 |     105 | Greater or Equal to 100 |
+| 10.5 |   10 |     105 | Greater or Equal to 100 |
+| 12.5 |   11 |   137.5 | Greater or Equal to 100 |
+|  9.6 |    4 |    38.4 | Less than 100           |
++------+------+---------+-------------------------+
