@@ -1,0 +1,208 @@
+frequently asked queries
+Sameer Dehadrai Page: 1
+ASSORTED
+1. Create Emp table containing a Sal column with the following sample data:-
+
+EMP
+------
+SAL
+------
+8000
+7000
+6000
+5000
+10000
+9000
+4000
+8000
+7000
+
+Write a SELECT statement to display the Overall 5th largest Sal.
+Assuming the above data, the Overall 5th largest Sal would be 6000. Do not make use of Rownum.
+Ans:
+SELECT DISTINCT Sal
+FROM Emp
+ORDER BY Sal DESC
+LIMIT 1 OFFSET 4;
+
+---------------------------------------------------------------------------------
+
+2. For the above table, write a SELECT statement to display the Largest and Second largest Sals (next to each other). Your output should be as below:-
+
+FIRST SECOND
+-------- ------------
+10000 9000
+
+Ans:
+SELECT 
+    (SELECT MAX(sal) FROM emp) AS FIRST,
+    (SELECT MAX(sal) 
+     FROM emp 
+     WHERE sal < (SELECT MAX(sal) FROM emp)
+    ) AS SECOND
+FROM emp;
+
+---------------------------------------------------------------------------------
+
+3. Create Emp table containing an Empno column with the following sample data:-
+
+EMP
+-------
+EMPNO
+-----------
+1
+1
+2
+3
+3
+4
+4
+4
+5
+6
+
+Write a DELETE statement to delete the duplicate rows. After running your Delete
+statement, one occurrence of each value of Empno should remain in the table.
+
+Ans : 
+delete from emp
+where rowed not in
+(select min(rowid) from emp group by empno);
+
+---------------------------------------------------------------------------------
+
+4. Create Emp table containing an Empno column with the following sample data:-
+
+EMP
+-------
+EMPNO
+-----------
+5
+9
+1
+14
+25
+20
+
+Write a SELECT statement to display the range of missing numbers. Your output
+should be as follows:-
+
+ MISSING
+ ------------
+ 2 – 4
+ 6 – 8
+ 10 – 13
+ 15 – 19
+ 21 – 24
+
+Don’t assume that the existing data in the table is sorted.
+Ans :
+SELECT 
+    (e1.empno + 1) || ' - ' || (e2.empno - 1) AS missing
+FROM 
+    (SELECT DISTINCT empno FROM emp) e1,
+    (SELECT DISTINCT empno FROM emp) e2
+WHERE e2.empno = (
+    SELECT MIN(empno)
+    FROM emp
+    WHERE empno > e1.empno
+)
+AND e2.empno - e1.empno > 1
+ORDER BY e1.empno;
+
+---------------------------------------------------------------------------------
+
+5. Create Bank table containing Deposit and Withdrawal columns with the following
+sample data:-
+
+BANK
+---------
+DEPO WITHD
+-------- ----------
+5000 3000
+6000 5000
+4000 2000
+
+Write a SELECT statement to display the cumulative running Balance (Deposit –
+Withdrawal). Your output should be as below:-
+
+ Balance
+ ----------
+ 2000
+ 3000
+ 5000
+Ans : 
+SELECT 
+    SUM(depo - withd) OVER (ORDER BY ROWID) AS balance
+FROM bank;
+
+---------------------------------------------------------------------------------
+
+6. Write a SELECT statement to display the experience of all the employees (Sysdate – Hiredate). Your output should be as follows:-
+ 
+ 5 years 7 months 11 days
+ 9 years 3 months 16 days
+ etc.
+
+Don’t assume that there are 365 days in a year or that there are 30 days in a month.
+Your solution should even take care of leap years.
+Ans :
+SELECT 
+    FLOOR(MONTHS_BETWEEN(SYSDATE, hiredate)/12) || ' years ' ||
+    FLOOR(MOD(MONTHS_BETWEEN(SYSDATE, hiredate),12)) || ' months ' ||
+    FLOOR(SYSDATE - ADD_MONTHS(hiredate, 
+          FLOOR(MONTHS_BETWEEN(SYSDATE, hiredate)))) || ' days'
+    AS experience
+FROM emp;
+
+---------------------------------------------------------------------------------
+
+7. Write a SELECT statement to achieve Number to Word conversion. You have to spell out the Salaries of all the employees. Your solution should work up to Rs. 5 million.
+Ignore paise. 
+Ans:SELECT 
+    CASE 
+        WHEN sal >= 1000000 THEN 
+            TRIM(
+                CASE FLOOR(sal/1000000)
+                    WHEN 1 THEN 'ONE MILLION '
+                    WHEN 2 THEN 'TWO MILLION '
+                    WHEN 3 THEN 'THREE MILLION '
+                    WHEN 4 THEN 'FOUR MILLION '
+                    WHEN 5 THEN 'FIVE MILLION '
+                END ||
+                CASE 
+                    WHEN MOD(sal,1000000) > 0 THEN
+                        TRIM(
+                            CASE FLOOR(MOD(sal,1000000)/1000)
+                                WHEN 1 THEN 'ONE THOUSAND '
+                                WHEN 2 THEN 'TWO THOUSAND '
+                                WHEN 3 THEN 'THREE THOUSAND '
+                                WHEN 4 THEN 'FOUR THOUSAND '
+                                WHEN 5 THEN 'FIVE THOUSAND '
+                                WHEN 6 THEN 'SIX THOUSAND '
+                                WHEN 7 THEN 'SEVEN THOUSAND '
+                                WHEN 8 THEN 'EIGHT THOUSAND '
+                                WHEN 9 THEN 'NINE THOUSAND '
+                            END
+                        )
+                END
+            )
+
+        WHEN sal >= 1000 THEN 
+            TRIM(
+                CASE FLOOR(sal/1000)
+                    WHEN 1 THEN 'ONE THOUSAND '
+                    WHEN 2 THEN 'TWO THOUSAND '
+                    WHEN 3 THEN 'THREE THOUSAND '
+                    WHEN 4 THEN 'FOUR THOUSAND '
+                    WHEN 5 THEN 'FIVE THOUSAND '
+                    WHEN 6 THEN 'SIX THOUSAND '
+                    WHEN 7 THEN 'SEVEN THOUSAND '
+                    WHEN 8 THEN 'EIGHT THOUSAND '
+                    WHEN 9 THEN 'NINE THOUSAND '
+                END
+            )
+
+        ELSE 'SMALL NUMBER'
+    END AS salary_in_words
+FROM emp;

@@ -1,0 +1,91 @@
+                                    SQL Exercise 5
+                                        join
+1. Display the Supplier name and the Quantity sold.
+Ans:
+SELECT s.sname, spj.qty
+FROM S s
+JOIN SPJ spj ON s.snum = spj.snum;
+
+---------------------------------------------------------------------------------
+
+2. Display the Part name and Quantity sold.
+Ans:
+SELECT p.pname, spj.qty
+FROM P p
+JOIN SPJ spj ON p.pnum = spj.pnum;
+---------------------------------------------------------------------------------
+
+3. Display the Project name and Quantity sold.
+Ans:
+SELECT j.jname, spj.qty
+FROM J j
+JOIN SPJ spj ON j.jnum = spj.jnum;
+---------------------------------------------------------------------------------
+
+4. Display the Supplier name, Part name, Project name and Quantity sold.
+Ans:
+SELECT s.sname, p.pname, j.jname, spj.qty
+FROM SPJ spj
+JOIN S s ON spj.snum = s.snum
+JOIN P p ON spj.pnum = p.pnum
+JOIN J j ON spj.jnum = j.jnum;
+---------------------------------------------------------------------------------
+
+5. Display the Supplier name, Supplying Parts to a Project in the same City.
+Ans:
+SELECT s.sname, p.pname, j.jname, spj.qty
+FROM SPJ spj
+JOIN S s ON spj.snum = s.snum
+JOIN P p ON spj.pnum = p.pnum
+JOIN J j ON spj.jnum = j.jnum
+WHERE s.city = j.city;
+---------------------------------------------------------------------------------
+
+6. Display the Part name that is ‘Red’ is color, and the Quantity sold.
+Ans:
+SELECT p.pname, spj.qty
+FROM P p
+JOIN SPJ spj ON p.pnum = spj.pnum
+WHERE p.color = 'Red';
+---------------------------------------------------------------------------------
+
+7. Display all the Quantity sold by Suppliers with the Status = 20.
+Ans:
+SELECT s.sname, spj.qty
+FROM S s
+JOIN SPJ spj ON s.snum = spj.snum
+WHERE s.status = 20;
+---------------------------------------------------------------------------------
+
+8. Display all the Parts and Quantity with a Weight > 14.
+Ans:
+SELECT p.pname, spj.qty
+FROM P p
+JOIN SPJ spj ON p.pnum = spj.pnum
+WHERE p.weight > 14;
+---------------------------------------------------------------------------------
+
+9. Display all the Project names and City, which has bought more than 500 Parts.
+Ans:
+SELECT j.jname, j.city, SUM(spj.qty) AS total_qty
+FROM J j
+JOIN SPJ spj ON j.jnum = spj.jnum
+GROUP BY j.jname, j.city
+HAVING SUM(spj.qty) > 500;
+---------------------------------------------------------------------------------
+
+10. Display all the Part names and Quantity sold that have a Weight less than 15.
+Ans:
+SELECT p.pname, spj.qty
+FROM P p
+JOIN SPJ spj ON p.pnum = spj.pnum
+WHERE p.weight < 15;
+---------------------------------------------------------------------------------
+
+11. Display all the Employee names and the name of their Managers.
+Ans:
+SELECT e1.ename AS Employee, e2.ename AS Manager
+FROM Emp e1
+LEFT JOIN Emp e2 ON e1.manager = e2.ename;
+---------------------------------------------------------------------------------
+ 

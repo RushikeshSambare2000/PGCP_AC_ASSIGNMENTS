@@ -1,0 +1,99 @@
+                                   SQL Exercise 6
+                                     join
+1. Display all the Suppliers with the same Status as the supplier, ‘CLARK’.
+Ans:
+SELECT *
+FROM S
+WHERE status = (
+    SELECT status
+    FROM S
+    WHERE sname = 'CLARK'
+);
+---------------------------------------------------------------------------------
+2. Display all the Employees in the same department as the employee ‘MILLER’.
+SELECT *
+FROM Emp
+WHERE deptno = (
+    SELECT deptno
+    FROM Emp
+    WHERE ename = 'MILLER'
+);
+---------------------------------------------------------------------------------
+3. Display all the Parts which have more Weight than all the Red parts.
+SELECT *
+FROM P
+WHERE weight > ALL (
+    SELECT weight
+    FROM P
+    WHERE color = 'Red'
+);
+
+---------------------------------------------------------------------------------
+
+4. Display all the Projects going on in the same city as the project ‘TAPE’.
+SELECT *
+FROM J
+WHERE city = (
+    SELECT city
+    FROM J
+    WHERE jname = 'TAPE'
+);
+---------------------------------------------------------------------------------
+
+5. Display all the Parts with Weight less than all the Green parts.
+SELECT *
+FROM P
+WHERE weight < ALL (
+    SELECT weight
+    FROM P
+    WHERE color = 'Green'
+);
+---------------------------------------------------------------------------------
+
+6. Display the name of the Supplier who has sold the maximum Quantity (in one
+sale).
+SELECT s.sname
+FROM S s
+JOIN SPJ spj ON s.snum = spj.snum
+WHERE spj.qty = (
+    SELECT MAX(qty)
+    FROM SPJ
+);
+---------------------------------------------------------------------------------
+
+7. Display the name of the Employee with the minimum Salary.
+SELECT ename
+FROM Emp
+WHERE sal = (
+    SELECT MIN(sal)
+    FROM Emp
+);
+---------------------------------------------------------------------------------
+
+8. Display the name of the Supplier who has sold the maximum overall Quantity (sum of Sales).
+SELECT s.sname
+FROM S s
+JOIN SPJ spj ON s.snum = spj.snum
+GROUP BY s.sname
+HAVING SUM(spj.qty) = (
+    SELECT MAX(total_qty)
+    FROM (
+        SELECT SUM(qty) AS total_qty
+        FROM SPJ
+        GROUP BY snum
+    ) t
+);
+---------------------------------------------------------------------------------
+9. Display the name of the Department with the maximum number of Employees. 
+SELECT d.dname
+FROM Dept d
+JOIN Emp e ON d.deptno = e.deptno
+GROUP BY d.dname
+HAVING COUNT(*) = (
+    SELECT MAX(emp_count)
+    FROM (
+        SELECT COUNT(*) AS emp_count
+        FROM Emp
+        GROUP BY deptno
+    ) t
+);
