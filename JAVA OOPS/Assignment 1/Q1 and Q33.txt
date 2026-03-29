@@ -1,0 +1,95 @@
+1) What is Java?
+Java is a high-level, object-oriented, general-purpose programming language used to build desktop apps, web apps, enterprise systems, mobile apps, and more. It is designed to be readable, portable, and secure, and its programs are usually compiled into bytecode rather than directly into machine-specific code.
+
+2) Is Java platform dependent or independent?
+Java is considered platform independent because the same .class bytecode can run on different operating systems as long as a suitable JVM is available. The JVM itself is platform dependent, but the bytecode remains portable across platforms.
+
+3) What is JVM?
+JVM stands for Java Virtual Machine. It is the runtime component that loads Java bytecode, verifies it, and executes it on the host machine by translating it into machine-specific instructions. JVM also handles important runtime tasks like memory management, garbage collection, and security checks.
+
+4) What is JDK and JRE?
+JDK means Java Development Kit and is used to develop Java programs. It includes the compiler and other developer tools, plus the runtime environment. JRE means Java Runtime Environment and is used to run Java programs; it includes the JVM and the core libraries needed at runtime.
+
+5) Why is Java called “Write Once, Run Anywhere”?
+Java source code is compiled into bytecode, which is not tied to one operating system. That bytecode can run on any device that has a compatible JVM, so the same program can run on Windows, Linux, or macOS without rewriting the code.
+
+6) What is a class in Java?
+A class is a blueprint or template for creating objects. It defines the data a thing should have and the actions it can perform, such as fields, methods, constructors, and nested types.
+
+7) What is an object?
+An object is a real instance of a class. If a class is the blueprint, then the object is the actual created thing in memory, with its own state and behavior.
+
+8) What is the main method in Java?
+The main method is the starting point of a Java application. When you run a Java program, the JVM looks for this method first, and execution begins there. A standard form is public static void main(String[] args).
+
+9) What is the use of System.out.println()?
+System.out.println() is used to print output to the console and then move to a new line. System.out is the standard output stream, and println() is a method that writes text or values to it.
+
+11) What are data types in Java?
+Data types define the kind of value a variable can store. Java uses data types so the compiler knows how much memory to allocate and what operations are valid on the value.
+
+12) Examples of primitive data types
+Java has 8 primitive types: byte, short, int, long, float, double, char, and boolean. These store simple values directly, not objects.
+
+13) What is a variable?
+A variable is a named storage location in memory used to hold data that can change during program execution. It gives a value a name so you can use it throughout your code.
+
+14) How do you declare a variable in Java?
+You declare a variable by writing its type, then its name, and optionally an initial value. Example: int age = 25; or double price = 99.5;.
+
+15) Difference between int and float
+int stores whole numbers like 10 or -3, while float stores decimal numbers like 10.5 or 3.14. int is for exact integers; float is for approximate real numbers with fractional parts.
+
+16) What is type casting?
+Type casting is the process of converting one data type into another. Java supports implicit casting when the conversion is safe and explicit casting when the programmer must force the conversion, such as converting double to int.
+
+17) What is the default value of int?
+The default value of an int field in a class is 0. Local variables do not get a default value and must be initialized before use.
+
+18) What is a keyword in Java?
+A keyword is a reserved word with a special meaning in Java, such as class, if, while, return, or public. Keywords are part of the language syntax and cannot be used as identifiers.
+
+19) Can we use reserved keywords as variable names?
+No. Reserved keywords cannot be used as variable names because Java already gives them a fixed meaning in the language.
+
+20) Difference between = and ==
+= is the assignment operator; it stores a value in a variable. == is the comparison operator; it checks whether two values are equal.
+
+21) What is an if statement?
+An if statement is a decision-making statement. It lets your program execute a block only when a condition evaluates to true.
+
+22) Difference between if and switch
+if is best for general conditions, ranges, and complex logical expressions. switch is best when one expression is compared against many fixed values, such as menu options or day numbers.
+
+23) What is a loop?
+A loop is a control structure that repeats a block of code multiple times. It is used when you want to process repeated tasks without writing the same code again and again.
+
+24) Types of loops in Java
+Java has three main loops: for, while, and do-while. The for loop is often used when the number of iterations is known, while while and do-while are useful when repetition depends on a condition.
+
+25) Difference between for loop and while loop
+A for loop is compact and is usually preferred when initialization, condition, and update are all closely related. A while loop is better when the number of iterations is not known in advance and the condition alone controls repetition.
+
+26) What is break statement?
+break immediately exits the nearest loop or switch block. It is used when you want to stop repeating early after a condition is met.
+
+27) What is continue statement?
+continue skips the rest of the current loop iteration and moves to the next one. It does not end the loop; it only skips one cycle.
+
+28) What will happen if we don’t write the main method?
+If a Java application does not have a proper main method, the JVM will not know where to start execution, so the program cannot run as an application.
+
+29) Can we run a Java program without class?
+No. Java is a class-based language, so code is normally written inside classes. Even if you use newer features like top-level code in certain tools, the standard Java application model still relies on classes.
+
+30) What happens if we don’t compile a Java program?
+Normally, Java source code must be compiled into bytecode before the JVM can execute it. If you skip compilation in the usual workflow, there is no .class bytecode for the JVM to run.
+
+31) Can a variable change its data type?
+Not after it is declared. A variable has one declared type, and that type remains fixed, though its value can change within that type.
+
+32) What is the size of int in Java?
+An int in Java is 32 bits, which is 4 bytes. This size is fixed by the language specification so it behaves consistently across platforms.
+
+33) Why does Java not support pointers directly?
+Java avoids direct pointers to improve memory safety, security, and portability. Instead of giving programmers raw memory addresses, Java uses references and automatic memory management, which reduces errors like pointer arithmetic mistakes and invalid memory access.
