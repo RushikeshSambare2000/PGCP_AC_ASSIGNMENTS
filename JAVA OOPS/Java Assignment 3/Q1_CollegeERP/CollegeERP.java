@@ -24,8 +24,12 @@ class ContactDetails {
         this.email = email;
     }
 
-    public String getPhone() { return phone; }
-    public String getEmail() { return email; }
+    public String getPhone() { 
+        return phone; 
+    }
+    public String getEmail() { 
+        return email; 
+    }
 
     public void display() {
         System.out.println("  Phone: " + phone);
