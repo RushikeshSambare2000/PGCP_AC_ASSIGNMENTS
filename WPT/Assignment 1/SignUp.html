@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sekuya&display=swap" rel="stylesheet">
+    <style>
+        #container {
+            width: 450px;
+            height: 450px;
+            text-align: center;
+            background-color:rgb(158, 178, 251);
+            margin: 50px auto;
+            padding-top: 30px;
+            font-family: "Playfair Display", serif;
+            border-radius: 15px;
+        }
+        body{
+             background: linear-gradient(to top right, #ffff66 0%, #9966ff 100%);
+        }
+
+        .login-btn{
+            margin-top: 25px;
+        }
+        .form-control button{
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: 100px;
+            background-color: rgb(203, 176, 211);
+            border-radius: 15px;
+            color: rgb(102, 102, 204);
+            cursor:pointer;
+            transition: background 0.5s;
+            transition: width 0.5s;
+            
+        }
+        .form-control button:hover{
+            width: 150px;
+            background-color: rgb(160, 85, 181);
+            color: white;
+            
+        }
+        .form-control input{
+            width: auto;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-bottom-width: 2px;
+            border-bottom-color:rgb(49, 44, 44);
+            border-bottom-style: solid;
+            background-color: rgb(158, 178, 251);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Sign Up Form</h1>
+        <form action="" class="form-control">
+            <table align="center" cellspacing="15" >
+                <tr>
+                    <td><label for="">First Name : </label></td>
+                    <td><input type="text" placeholder="Enter Username"></td>
+                </tr>
+                 <tr>
+                    <td><label for="">Lastname: </label></td>
+                    <td><input type="text" placeholder="Enter Username"></td>
+                </tr>
+                 <tr>
+                    <td><label for="">Email: </label></td>
+                    <td><input type="email" placeholder="Enter Username"></td>
+                </tr>
+                <tr>
+                    <td><label for="">Password : </label></td>
+                    <td><input type="password" placeholder="Enter password"></td>
+                </tr>
+            </table>
+            <span>Already Have Account?</span> <a href="#">Login</a> <br>
+             <div class="login-btn">
+           <button type="submit">Sign up </button>
+        </div> 
+          
+        </form>
+    </div>
+</body>
+</html>
