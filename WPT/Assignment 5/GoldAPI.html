@@ -3,11 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>News Search App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        #news-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 15px;
+        }
+
+        .news-content h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .news-content p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .news-content a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .news-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <script>
 
-    </script>
+    <h1>Times of World - By Rushikesh Sambare</h1>
+<div class="d-flex justify-content-center align-items-center">
+<form class="row g-3" onsubmit="fetchNews(event)">
+  <div class="col-auto">
+    <label for="inputPassword2" class="visually-hidden">Search News</label>
+    <input type="text" class="form-control" id="inputPassword2" placeholder="News Title">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Search News</button>
+  </div>
+</form>
+</div>
+
+    <div id="news-container"></div>
+<script>
+    async function fetchNews(event) {
+        event.preventDefault();
+
+        const NewstitleInput = document.getElementById("inputPassword2").value;
+        console.log(NewstitleInput);
+
+        const apiUrl = `https://newsapi.org/v2/everything?q=${NewstitleInput}&from=2026-03-28&sortBy=publishedAt&apiKey=1d292ac980c24678830dd25471ef8b36`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            const newsContainer = document.getElementById("news-container");
+            newsContainer.innerHTML = "";
+
+            data.articles.forEach(article => {
+                const card = document.createElement("div");
+                card.classList.add("news-card");
+
+                card.innerHTML = `
+                    <img src="${article.urlToImage || 'https://via.placeholder.com/400x200'}" alt="news image">
+                    <div class="news-content">
+                        <h2>${article.title}</h2>
+                        <p><strong>Source:</strong> ${article.source.name}</p>
+                        <p>${new Date(article.publishedAt).toLocaleDateString()}</p>
+                        <a href="${article.url}" target="_blank">Read More</a>
+                    </div>
+                `;
+
+                newsContainer.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error("Error fetching news:", error);
+        }
+    }
+</script>
 </body>
 </html>
