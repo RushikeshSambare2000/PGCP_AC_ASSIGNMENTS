@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Assignment no 4 Ex. 2</h1>
+    <script>
+function forEachElement(arr, callback) {
+    for (let i = 0; i < arr.length; i++) {
+        callback(arr[i], i);
+    }
+}
+let numbers = [1, 2, 3, 4, 5];
+
+forEachElement(numbers, function(element, index) {
+    console.log("Index:", index, "Result:", element * 2);
+});
+    </script>
+</body>
+</html>

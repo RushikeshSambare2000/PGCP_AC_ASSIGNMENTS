@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Assignment 4 - Ex 3</h1>
+    <script>
+
+        function fetchData(url, callback) {
+    console.log("Fetching data from:", url);
+
+    setTimeout(() => {
+        let response = "Response from " + url;
+        callback(response);
+    }, 2000);
+}
+
+fetchData("https://jsonplaceholder.typicode.com/users", function(response) {
+    console.log(response);
+});
+    </script>
+</body>
+</html>

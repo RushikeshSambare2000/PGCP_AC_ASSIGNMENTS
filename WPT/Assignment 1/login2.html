@@ -26,7 +26,7 @@
        
         .left {
             width: 50%;
-            background: linear-gradient(135deg, #2ecc71 50%, transparent 50%);
+            background: linear-gradient(133deg, #2ecc71 50%, transparent 50%);
             color: white;
             padding: 30px;
             display: flex;
@@ -78,12 +78,12 @@
             border-color: #2ecc71;
         }
 
-        .error {
-            border-color: red !important;
+        .right.input-box:invalid {
+            border-color: red ;
         }
 
         .login-btn {
-            width: 100%;
+            width: 50%;
             padding: 10px;
             border: 2px solid #2ecc71;
             border-radius: 20px;
@@ -91,6 +91,8 @@
             color: #2ecc71;
             cursor: pointer;
             margin-top: 10px;
+            margin-left: 25%;
+            
         }
 
         .login-btn:hover {
@@ -101,6 +103,7 @@
         .forgot {
             display: block;
             margin-top: 10px;
+            text-align: center;
             font-size: 12px;
             text-decoration: none;
             color: #2ecc71;
@@ -111,14 +114,13 @@
 
 <div class="container">
     
-    <!-- Left Side -->
+  
     <div class="left">
         <h1>Welcome!</h1>
         <p>Create your account.<br>For Free!</p>
         <button>Sign Up</button>
     </div>
 
-    <!-- Right Side -->
     <div class="right">
         <h2>Login</h2>
 
@@ -127,7 +129,7 @@
         </div>
 
         <div class="input-box">
-            <input type="password" placeholder="Password" class="error">
+            <input type="password" placeholder="Password">
         </div>
 
         <button class="login-btn">Sign In</button>
@@ -135,6 +137,17 @@
     </div>
 
 </div>
+<script>
+    let val1=10;
+    let val2=5;
+    function addnum(val1, val2){
+        let total = val1+val2;
+        return total;
+    }
+    let result1=addnum(val1, val2);
+    let result2=addnum(10,2);
+    console.log(result1,result2)
+</script>
 
 </body>
 </html>

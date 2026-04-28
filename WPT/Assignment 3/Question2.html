@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        form {
+            width: 350px;
+            padding: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+       
+
+    
+    </style>
+</head>
+<body>
+
+    
+    <form onsubmit="displayValues(event)">
+        <label>First Name:</label>
+        <input type="text" id="fname" required>
+
+        <label>Last Name:</label>
+        <input type="text" id="lname" required>
+
+        <label>Contact No:</label>
+        <input type="text" id="contact" required>
+
+        <label>Email ID:</label>
+        <input type="email" id="email" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        function displayValues(event) {
+            event.preventDefault();
+
+            let fname = document.getElementById("fname").value;
+            let lname = document.getElementById("lname").value;
+            let contact = document.getElementById("contact").value;
+            let email = document.getElementById("email").value;
+
+            document.getElementById("output").innerHTML =
+                "<h1>User info:</h1>" +
+                "<p><b>First Name:</b> " + fname + "</p>" +
+                "<p><b>Last Name:</b> " + lname + "</p>" +
+                "<p><b>Contact No:</b> " + contact + "</p>" +
+                "<p><b>Email ID:</b> " + email + "</p>";
+        }
+    </script>
+
+</body>
+</html>

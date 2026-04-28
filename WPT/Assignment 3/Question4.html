@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Show Bold Words Only on Hover</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        a {
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 15px;
+        }
+
+        /* Before hover - hide bold words */
+        b {
+            visibility: hidden;
+        }
+
+        /* After hover - green color */
+        .displayword {
+            visibility: visible;
+            color: green;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Hover to Show Bold Words</h1>
+
+    <p>
+        <a onmouseover="showpara()" onmouseout="hidepara()">
+            [On mouse over here bold words of the following paragraph will be highlighted]
+        </a>
+    </p>
+
+    <p>
+        <b>We</b> have just started <b>this</b> section for the users 
+        (<b>beginner</b> to intermediate) who <b>want</b> to work with 
+        <b>various</b> JavaScript <b>problems</b> and write scripts online 
+        to <b>test</b> their JavaScript <b>skill</b>.
+    </p>
+
+    <script>
+        function showpara() {
+            let displaywords = document.getElementsByTagName("b");
+            for (let i = 0; i < displaywords .length; i++) {
+                displaywords[i].classList.add("displayword");
+            }
+        }
+
+        function hidepara() {
+            let displaywords  = document.getElementsByTagName("b");
+            for (let i = 0; i < displaywords.length; i++) {
+                displaywords[i].classList.remove("displayword");
+            }
+        }
+    </script>
+
+</body>
+</html>

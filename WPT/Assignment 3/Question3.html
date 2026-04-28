@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Remove Dropdown Item</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        select, button {
+            padding: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Drop-down List</h2>
+
+    <select id="myList">
+        <option>JAVA</option>
+        <option>PYTHON</option>
+        <option>CPP</option>
+        <option>DBT</option>
+    </select>
+
+    <br>
+
+    <button onclick="removeItem()">Remove Selected Item</button>
+
+    <script>
+        function removeItem() {
+            let list = document.getElementById("myList");
+            let selectedIndex = list.selectedIndex;
+
+            if (selectedIndex != -1) {
+                list.remove(selectedIndex);
+            }
+        }
+    </script>
+
+</body>
+</html>
