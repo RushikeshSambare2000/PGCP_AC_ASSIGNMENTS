@@ -93,7 +93,8 @@
 </form>
 </div>
 
-    <div id="news-container"></div>
+    <div id="news-container">
+    </div>
 <script>
     async function fetchNews(event) {
         event.preventDefault();
@@ -106,6 +107,7 @@
         try {
             const response = await fetch(apiUrl);
             const data = await response.json();
+            console.log(data)
 
             const newsContainer = document.getElementById("news-container");
             newsContainer.innerHTML = "";
@@ -120,6 +122,7 @@
                         <h2>${article.title}</h2>
                         <p><strong>Source:</strong> ${article.source.name}</p>
                         <p>${new Date(article.publishedAt).toLocaleDateString()}</p>
+                        <p><strong>Author: </strong>${article.author}</p>
                         <a href="${article.url}" target="_blank">Read More</a>
                     </div>
                 `;

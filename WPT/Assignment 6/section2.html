@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Budget Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input, button {
+            margin: 8px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Personal Budget Tracker</h2>
+
+    <input type="text" id="desc" placeholder="Expense Description">
+    <input type="number" id="amount" placeholder="Amount">
+    <input type="date" id="date">
+
+    <button onclick="handleAddExpense()">Add Expense</button>
+
+    <h3>Expenses</h3>
+    <ul id="expenseList"></ul>
+
+    <h3>Total Expense: &#8377;<span id="totalExpense">0</span></h3>
+</div>
+
+<script>
+    // 1. Variables
+    let expenses = [];
+    const minFilterAmount = 20;
+    var appName = "Budget Tracker";
+
+    // 9. Closure
+    function totalManager() {
+        let total = 0;
+        return function(amount) {
+            total += amount;
+            return total;
+        };
+    }
+
+    const updateTotal = totalManager();
+
+    // 3. Expense Object + 7. Callback
+    function addExpense(expense, callback) {
+        expenses = [...expenses, expense]; // 6. Spread Operator
+        callback("Expense added successfully!");
+        displayExpenses();
+    }
+
+    // 2. Arrow Function
+    const calculateTotal = () => {
+        const total = expenses.reduce((sum, item) => sum + item.amount, 0); // 5. Reduce
+        document.getElementById("totalExpense").textContent = total;
+    };
+
+    // 4 + 5. Destructuring + Map + Filter
+    function displayExpenses() {
+        const list = document.getElementById("expenseList");
+        list.innerHTML = "";
+
+        expenses.forEach((expense) => {
+            const { description, amount, date } = expense; // Object Destructuring
+            const li = document.createElement("li");
+            li.textContent = `${description} - ₹${amount} - ${date}`;
+            list.appendChild(li);
+        });
+
+        console.log("Descriptions:", expenses.map(e => e.description)); // Map
+        console.log("Above $20:", expenses.filter(e => e.amount > minFilterAmount)); // Filter
+
+        calculateTotal();
+    }
+
+    // 6. Rest Operator
+    function addMultipleExpenses(...newExpenses) {
+        newExpenses.forEach(exp => addExpense(exp, msg => console.log(msg)));
+    }
+
+    // 8. Promise
+    function fetchExpenses() {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                   // { description: "Groceries", amount: 50, date: "2026-04-29" },
+                    //{ description: "Transport", amount: 15, date: "2026-04-28" }
+                ]);
+            }, 1000);
+        });
+    }
+
+    // 10. Async/Await
+    async function loadExpenses() {
+        const initialExpenses = await fetchExpenses();
+        expenses = [...initialExpenses];
+        displayExpenses();
+    }
+
+    // Button Handler
+    function handleAddExpense() {
+        const description = document.getElementById("desc").value;
+        const amount = Number(document.getElementById("amount").value);
+        const date = document.getElementById("date").value;
+
+        const expense = { description, amount, date };
+
+        addExpense(expense, function(message) {
+            alert(message);
+        });
+    }
+
+    // Load on start
+    loadExpenses();
+</script>
+
+</body>
+</html>
